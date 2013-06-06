@@ -1,0 +1,28 @@
+<resources>
+    <string name="dialog_ok">确定</string>
+    <string name="dialog_cannel">取消</string>
+    <string name="dialig_user_input">手动输入&#8230;</string>
+    
+    
+    <!-- 
+    	=======================================================
+    	Begin 样式
+    	=======================================================
+     -->
+    <style name="backup_selector">
+        <item name="android:background">@drawable/shape_dialog_button_ok</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:button">@null</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+    
+    <style name="backup_selector_white" parent="@style/backup_selector">
+        <item name="android:background">@drawable/shape_dialog_button_cannel</item>
+    </style>
+    <!-- 
+    	=======================================================
+    	end 样式
+    	=======================================================
+     -->
+</resources>

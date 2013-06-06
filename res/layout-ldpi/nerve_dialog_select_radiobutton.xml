@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+ <RadioButton xmlns:android="http://schemas.android.com/apk/res/android"
+     	style="@style/backup_selector"
+        android:id="@+id/radio_0"
+        android:layout_width="fill_parent"     
+        android:layout_height="wrap_content"
+        android:text="@null"
+        android:layout_margin="3dp"
+        />

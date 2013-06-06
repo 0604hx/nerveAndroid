@@ -1,0 +1,9 @@
+<org.nerve.ui.corner.CornerRowLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+   	    android:id="@+id/myCornerLayout"
+   	    android:layout_width="fill_parent"
+		android:layout_height="fill_parent" 
+		android:padding="5dp"
+		android:background="#DCDDDB"
+		>
+</org.nerve.ui.corner.CornerRowLayout>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_dialog"
+    >
+  
+    <TextView 
+        android:id="@+id/dialog_title"
+        android:layout_width="fill_parent"
+        android:layout_height="35dp"
+        android:textSize="18sp"
+        android:textColor="#000000"
+        android:gravity="center"
+        />
+    
+    <TextView 
+        android:id="@+id/dialog_message"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:paddingBottom="2dp"
+        android:textColor="#000000"
+        />
+    
+    <!-- 这个可以自由添加视图 -->
+    <LinearLayout 
+        android:id="@+id/dialog_live"
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+       >
+       
+    </LinearLayout>
+    
+    <LinearLayout 
+        android:id="@+id/dialog_button_group"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="15dp">
+        
+        <Button 
+            android:id="@+id/dialog_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/dialog_ok"
+            android:padding="3dp"
+            android:background="@drawable/shape_dialog_button_ok"
+            android:textColor="@android:color/black"
+            android:layout_marginRight="10dp"/>
+        
+         <Button 
+            android:id="@+id/dialog_cannel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/dialog_cannel"
+            android:layout_marginLeft="10dp"
+            android:textColor="@android:color/black"
+            android:background="@drawable/shape_dialog_button_cannel"/>
+        
+    </LinearLayout>
+</LinearLayout>
