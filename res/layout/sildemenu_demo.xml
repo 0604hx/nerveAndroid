@@ -1,0 +1,30 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center_horizontal"
+    android:background="#92cf28"
+    android:id="@+id/myMain"
+    >
+    
+    <Button 
+        android:id="@+id/openmenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="打开左边菜单"
+        />
+    <Button
+        android:layout_below="@+id/openmenu" 
+        android:id="@+id/openmenuRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="打开右边菜单"
+        />
+    
+    <Button
+        android:layout_below="@+id/openmenuRight" 
+        android:id="@+id/openmenuTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="打开顶部菜单"
+        />
+</RelativeLayout>

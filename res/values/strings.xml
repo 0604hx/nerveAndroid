@@ -1,7 +1,12 @@
 <resources>
-    <string name="app_name">cornerTable</string>
+    <string name="app_name">nerveAndroid</string>
     
     <string name="confirm">确认型对话框</string>
     <string name="input">输入型对话框</string>
     <string name="radio">选择型对话框</string>
+    
+   	<string-array name="search_type">
+   	    <item>命名</item>
+   	    <item>编号</item>
+   	</string-array>
 </resources>

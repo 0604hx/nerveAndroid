@@ -1,0 +1,108 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" 
+    android:background="#DCDDDB"
+    android:id="@+id/main_view">
+
+	<RelativeLayout 
+	    android:id="@+id/navigationBar"
+	    android:layout_width="fill_parent"
+	    android:layout_height="45dip"
+	    android:layout_alignParentTop="true"
+	    android:background="@drawable/shape_nerve_nav_bg"
+	    >
+	    
+	    <Button 
+	        style="@style/nerve_nav_button"
+	        android:id="@+id/navBackBtn"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="10.0dip"  
+	        android:layout_alignParentLeft="true"
+	        android:layout_centerVertical="true"
+	        android:drawableLeft="@drawable/arrow_left"
+	        />
+	    
+	    
+	    <Spinner
+	        android:id="@+id/spinner1"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_toRightOf="@+id/navBackBtn"
+	        android:layout_toLeftOf="@+id/keyword" />
+	    
+	 	<EditText 
+	 	    android:background="@drawable/shape_search_input"
+	 	    android:layout_width="120dp"
+	 	    android:layout_height="30dp"
+	 	    android:id="@+id/keyword"
+	 	    android:layout_toLeftOf="@+id/searchBtn"
+	 	    android:layout_centerVertical="true"
+	 	    android:hint="搜索关键字"/>
+  
+	    <Button  
+	        style="@style/nerve_nav_button"
+	        android:id="@+id/searchBtn"  
+	        android:layout_width="wrap_content"  
+	        android:layout_height="wrap_content"  
+	        android:layout_alignParentRight="true"
+	        android:layout_marginRight="10.0dip"
+	        android:layout_centerVertical="true"
+	        android:text="搜索" 
+	        />
+
+	</RelativeLayout>
+    
+	<ListView 
+	    android:layout_below="@+id/navigationBar"
+	    android:id="@+id/goods_list"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    ></ListView>
+	
+	<!-- 搜索辅助 -->
+	<LinearLayout 
+	    android:id="@+id/search_div"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentBottom="true"
+	    >
+	    <Button 
+		    android:background="@drawable/shape_dialog_button_cannel"
+		    android:id="@+id/parentBtn"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_weight="1"
+		    android:text="上一层"
+		    />	 
+		    
+		<Button 
+		    android:background="@drawable/shape_dialog_button_cannel"
+		    android:id="@+id/selectAllBtn"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_weight="1"
+		    android:text="全选"
+		    />	 
+		    
+		<Button 
+		    android:background="@drawable/shape_dialog_button_cannel"
+		    android:id="@+id/selectNoBtn"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_weight="1"
+		    android:text="全不选"
+		    />	
+		    
+		<Button 
+		    android:background="@drawable/shape_dialog_button_ok"
+		    android:id="@+id/okBtn"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_weight="1"
+		    android:text="确定"
+		    />	
+	</LinearLayout>
+	
+</RelativeLayout>

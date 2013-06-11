@@ -1,0 +1,25 @@
+   <LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#333333"
+    android:orientation="vertical"
+    android:id="@+id/leftMenu"
+    >
+    
+    <TextView 
+   	    android:textColor="#ffffff"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="左边的菜单"/>
+   	<Button 
+   	    android:id="@+id/login"
+   	    android:layout_width="fill_parent"
+   	    android:layout_height="wrap_content"
+   	    android:text="登录"/>
+   	
+   	<Button 
+   	    android:id="@+id/register"
+   	    android:layout_width="fill_parent"
+   	    android:layout_height="wrap_content"
+   	    android:text="注册"/>
+</LinearLayout>

@@ -1,11 +1,11 @@
 package org.nerve.example.dialog;
 
 import org.nerve.R;
-import org.nerve.annotation.Acvitity;
-import org.nerve.annotation.ViewOnId;
-import org.nerve.example.NerveActivity;
-import org.nerve.ui.dialog.ConfirmDialog;
-import org.nerve.ui.dialog.SingleInputDialog;
+import org.nerve.android.NerveActivity;
+import org.nerve.android.annotation.Acvitity;
+import org.nerve.android.annotation.ViewOnId;
+import org.nerve.android.ui.dialog.ConfirmDialog;
+import org.nerve.android.ui.dialog.SingleInputDialog;
 
 import android.view.View;
 import android.view.View.OnClickListener;

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.nerve.R;
-import org.nerve.annotation.Acvitity;
-import org.nerve.annotation.ViewOnId;
-import org.nerve.example.NerveActivity;
+import org.nerve.android.NerveActivity;
+import org.nerve.android.annotation.Acvitity;
+import org.nerve.android.annotation.ViewOnId;
 
 import android.content.Context;
 import android.view.LayoutInflater;

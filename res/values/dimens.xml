@@ -3,4 +3,6 @@
     
     <dimen name="corner_list_radius">8dp</dimen>
     <dimen name="corner_padding">1dp</dimen>
+    
+    <dimen name="top_menu_size">25dp</dimen>
 </resources>

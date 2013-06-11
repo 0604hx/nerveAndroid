@@ -6,9 +6,9 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.nerve.R;
-import org.nerve.ui.corner.CornerCell;
-import org.nerve.ui.corner.CornerRowLayout;
-import org.nerve.ui.corner.OnRowClickListener;
+import org.nerve.android.ui.corner.CornerCell;
+import org.nerve.android.ui.corner.CornerRowLayout;
+import org.nerve.android.ui.corner.OnRowClickListener;
 
 import android.app.Activity;
 import android.content.Intent;

@@ -4,11 +4,11 @@
     android:layout_height="fill_parent"
 	android:background="#DCDDDB"
     >
-    <org.nerve.ui.corner.CornerRowLayout 
+    <org.nerve.android.ui.corner.CornerRowLayout 
    	    android:id="@+id/myCornerLayout"
    	    android:layout_width="fill_parent"
 		android:layout_height="wrap_content" 
 		android:padding="5dp"
 		>
-</org.nerve.ui.corner.CornerRowLayout>
+</org.nerve.android.ui.corner.CornerRowLayout>
 </ScrollView>
