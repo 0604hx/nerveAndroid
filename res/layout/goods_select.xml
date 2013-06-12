@@ -34,7 +34,7 @@
 	    
 	 	<EditText 
 	 	    android:background="@drawable/shape_search_input"
-	 	    android:layout_width="120dp"
+	 	    android:layout_width="100dp"
 	 	    android:layout_height="30dp"
 	 	    android:id="@+id/keyword"
 	 	    android:layout_toLeftOf="@+id/searchBtn"
@@ -59,50 +59,85 @@
 	    android:id="@+id/goods_list"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
+	    android:divider="#88dadada"
+        android:dividerHeight="1sp"
+        android:cacheColorHint="#00000000"
+        android:paddingBottom="30dp"
 	    ></ListView>
 	
 	<!-- 搜索辅助 -->
 	<LinearLayout 
-	    android:id="@+id/search_div"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
 	    android:layout_alignParentBottom="true"
+	    android:orientation="vertical"
 	    >
-	    <Button 
-		    android:background="@drawable/shape_dialog_button_cannel"
-		    android:id="@+id/parentBtn"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:layout_weight="1"
-		    android:text="上一层"
-		    />	 
-		    
-		<Button 
-		    android:background="@drawable/shape_dialog_button_cannel"
-		    android:id="@+id/selectAllBtn"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:layout_weight="1"
-		    android:text="全选"
-		    />	 
-		    
-		<Button 
-		    android:background="@drawable/shape_dialog_button_cannel"
-		    android:id="@+id/selectNoBtn"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:layout_weight="1"
-		    android:text="全不选"
-		    />	
-		    
-		<Button 
-		    android:background="@drawable/shape_dialog_button_ok"
-		    android:id="@+id/okBtn"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:layout_weight="1"
-		    android:text="确定"
-		    />	
+	    
+	    <LinearLayout 
+	         android:id="@+id/category_div"
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="wrap_content"
+	    	android:paddingLeft="20dp"
+	    	android:paddingRight="20dp"
+	        >
+	        <Button 
+			    android:background="@drawable/selector_nerve_button_normal"
+			    android:id="@+id/parentBtn"
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:text="上一层"
+			    />	 
+		</LinearLayout>
+					    
+		<LinearLayout 
+	         android:id="@+id/search_div"
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="wrap_content"
+	    	android:visibility="gone"
+	        >    
+	        <TextView 
+	            android:id="@+id/searchSize"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:layout_gravity="center_vertical"
+	            />
+			<Button 
+			    android:background="@drawable/selector_nerve_button_normal"
+			    android:id="@+id/selectAllBtn"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_weight="1"
+			    android:text="全选"
+			    />	 
+			    
+			<Button 
+			    android:background="@drawable/selector_nerve_button_normal"
+			    android:id="@+id/selectNoBtn"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_weight="1"
+			    android:text="全不选"
+			    />	
+			    
+			<Button 
+			    android:background="@drawable/selector_nerve_button_normal"
+			    android:id="@+id/cancelBtn"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_weight="1"
+			    android:text="取消"
+			    />	
+			    
+			<Button 
+			    android:background="@drawable/selector_nerve_button"
+			    android:id="@+id/okBtn"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_weight="1"
+			    android:text="确定"
+			    />	
+	    </LinearLayout>
 	</LinearLayout>
 	
 </RelativeLayout>

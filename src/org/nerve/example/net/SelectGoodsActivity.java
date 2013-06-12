@@ -12,17 +12,18 @@ import org.nerve.android.annotation.ViewOnId;
 import org.nerve.android.net.NetWorker;
 import org.nerve.android.util.JSON;
 
-import android.accounts.Account;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -48,10 +49,16 @@ import android.widget.TextView;
  * @创建日期 :2013-6-10
  * @修改记录 :
  */
+@SuppressLint("HandlerLeak")
 @Acvitity(layout=R.layout.goods_select)
-public class SelectGoodsActivity extends NerveActivity implements OnClickListener{
+public class SelectGoodsActivity extends NerveActivity implements OnClickListener, OnItemClickListener{
 	
 	public static final String TAG = "SelectGoodsActivity";
+	
+	/**
+	 * 默认的根分类id
+	 */
+	private static final String ROOTID = "00000";
 	
 	/**
 	 * 记录了商品分类之间的父子关系
@@ -84,7 +91,7 @@ public class SelectGoodsActivity extends NerveActivity implements OnClickListene
 	/**
 	 * 当前显示的分类id，默认为 00000
 	 */
-	private String curTypeId = "00000";
+	private String curTypeId;
 	
 	/**
 	 * -----------------------------------------------------------------------------
@@ -97,15 +104,20 @@ public class SelectGoodsActivity extends NerveActivity implements OnClickListene
 	 */
 	@ViewOnId(id=R.id.search_div)
 	private LinearLayout searchLayout;
+	@ViewOnId(id=R.id.category_div)
+	private LinearLayout categoryLayout;
 	@ViewOnId(id=R.id.parentBtn, clickListener="this")
-	protected Button parentBtn;
+	protected Button parentBtn;	//上一层按钮
 	@ViewOnId(id=R.id.selectAllBtn, clickListener="this")
-	protected Button selectAllBtn;
+	protected Button selectAllBtn;	//全选按钮
 	@ViewOnId(id=R.id.selectNoBtn, clickListener="this")
-	protected Button selectNoBtn;
+	protected Button selectNoBtn;	//全不选按钮
 	@ViewOnId(id=R.id.okBtn, clickListener="this")
-	protected Button okBtn;
-	
+	protected Button okBtn;	//确定按钮
+	@ViewOnId(id=R.id.cancelBtn, clickListener="this")
+	protected Button cancelBtn;
+	@ViewOnId(id=R.id.searchSize)
+	protected TextView sizeTV;
 	
 	@ViewOnId(id=R.id.searchBtn, clickListener="this")
 	protected Button searchBtn;	//搜索按钮
@@ -127,9 +139,6 @@ public class SelectGoodsActivity extends NerveActivity implements OnClickListene
 	
 	private GoodsAdapter adapter;
 	
-	private GoodsWorker worker;
-	
-	@SuppressLint("HandlerLeak")
 	private Handler handler = new Handler(){
 		@Override
 		public void handleMessage(Message msg) {
@@ -137,18 +146,27 @@ public class SelectGoodsActivity extends NerveActivity implements OnClickListene
 			case GoodsWorker.NONET:
 				toast("当前网络连接不可用，请稍后再试");
 				break;
-			case GoodsWorker.WORKING:
-				showProgressDialog(null, "查询商品中...");
-				break;
 			case GoodsWorker.FAILED:
 				toast("获取商品列表时出错了...");
+				hideProgressDialog();
 				break;
 			case GoodsWorker.OK:
 				hideProgressDialog();
-				curGoodsList = worker.getList();
 				System.out.println("获取成功：" + curGoodsList.size());
-				System.out.println(curGoodsList.get(0));
 				adapter.notifyDataSetChanged(); //更新列表
+				
+				//如果是分类获取，保存相应的分类列表到goodsMap中
+				//同时保存分类的父子关系到family中
+				if(!isSearch){
+					goodsMap.put(curTypeId, curGoodsList);
+					for(Goods g:curGoodsList){
+						familyMap.put(g.typeId, g.ParId);
+					}
+					
+					System.out.println("保存了key=" + curTypeId +" 的商品列表");
+				}else{
+					sizeTV.setText("共 " + curGoodsList.size() + " 条");
+				}
 				break;
 			}
 		}
@@ -161,6 +179,8 @@ public class SelectGoodsActivity extends NerveActivity implements OnClickListene
 		familyMap = new HashMap<String, String>();
 		goodsMap = new HashMap<String, List<Goods>>();
 		
+		curTypeId = ROOTID;
+		
 		curGoodsList = new ArrayList<Goods>();
 		selectGoodsList = new ArrayList<Goods>();
 	}
@@ -169,11 +189,13 @@ public class SelectGoodsActivity extends NerveActivity implements OnClickListene
 	protected void initUI() {
 		initSpinner();
 		
-		adapter = new GoodsAdapter();
+		adapter = new GoodsAdapter(this);
 		listView.setAdapter(adapter);
+		listView.setOnItemClickListener(this);
 		
-		worker = new GoodsWorker();
-		worker.execute(GoodsWorker.CATEGORY);
+		searchLayout.setVisibility(View.GONE);
+		
+		loadData();
 	}
 	
 	private void initSpinner(){
@@ -186,14 +208,153 @@ public class SelectGoodsActivity extends NerveActivity implements OnClickListene
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.searchBtn:
+			isSearch = true;
+			toggleBottomDiv();
+			loadData();
+			break;
 			
+		case R.id.selectAllBtn:
+			for(int i=0;i<curGoodsList.size();i++){
+				curGoodsList.get(i).select = true;
+			}
+			adapter.notifyDataSetChanged();
+			break;
+			
+		case R.id.selectNoBtn:
+			for(int i=0;i<curGoodsList.size();i++){
+				curGoodsList.get(i).select = false;
+			}
+			adapter.notifyDataSetChanged();
+			break;
+			
+		case R.id.cancelBtn:
+			isSearch = false;
+			toggleBottomDiv();
+			loadData();
+			break;
+			
+		case R.id.okBtn:
+			for(int i=0;i<curGoodsList.size();i++){
+				Goods g = curGoodsList.get(i);
+				
+				if(g.select){
+					selectGoods(curGoodsList.get(i));
+				}
+			}
+			endSelect();
+			break;
+			
+		/*
+		 * 先判断当前typeId 为否为00000
+		 * 是：显示不能进入上一层
+		 * 否：从familyMap中找curtypeid的父类id
+		 */
+		case R.id.parentBtn:
+			if(curTypeId.equals(ROOTID)){
+				toast("已经是最顶层分类了");
+			}else{
+				System.out.println(familyMap);
+				String newId = familyMap.get(curTypeId);
+				if(newId != null){
+					curTypeId = newId;
+					loadData();
+				}
+			}
 			break;
 		}
 	}
 	
 	
+	@Override
+	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+		Goods g = curGoodsList.get(arg2);
+		if(isSearch){
+			g.select = !g.select;
+			GoodsRow row = (GoodsRow)arg1;
+			row.setChecked(g.select);
+		}else{
+			
+			if(g.sonnum == 0){
+				selectGoods(g);
+				endSelect();
+			}else{
+				curTypeId = g.typeId;
+				loadData();
+			}
+		}
+	}
+	
+	/**
+	 * 切换试问的按钮组
+	 */
+	private void toggleBottomDiv(){
+		searchLayout.setVisibility(isSearch ? View.VISIBLE : View.GONE);
+		categoryLayout.setVisibility(isSearch ? View.GONE : View.VISIBLE);
+	}
+	
+	private void loadData(){
+		if(isSearch){
+			showProgressDialog(null, typeSpinner.getSelectedItem() + " 方式搜索商品中...");
+			if(typeSpinner.getSelectedItemPosition() == 0){
+				new GoodsWorker().execute(GoodsWorker.BYNAME);
+			}else{
+				new GoodsWorker().execute(GoodsWorker.BYCODE);
+			}
+		}else{
+			
+			/*
+			 * 查询子类的话，先判断在 goodsMap 中是否有以 curTypeId 为key的value
+			 * 没有，就从网络中获取
+			 */
+			if(goodsMap.containsKey(curTypeId)){
+				curGoodsList = goodsMap.get(curTypeId);
+				adapter.notifyDataSetChanged();
+			}else{
+				showProgressDialog(null, "查看下一层分类中...");
+				new GoodsWorker().execute(GoodsWorker.CATEGORY);
+			}
+			
+		}
+	}
+	
+	private void selectGoods(Goods g){
+		selectGoodsList.add(g);
+	}
+	
+	/**
+	 * 结束选择
+	 */
+	private void endSelect(){
+		if(isSearch){
+			
+		}else{
+			
+		}
+		
+		System.out.println("选择的goodsList：");
+		for(Goods g:selectGoodsList)
+			System.out.println(g);
+	}
+	
+	
+	/**
+	 * @项目名称 :nerveAndroid
+	 * @文件名称 :SelectGoodsActivity.java
+	 * @所在包 :org.nerve.example.net
+	 * @功能描述 :
+	 *	商品列表的适配器
+	 * @创建者 :集成显卡	1053214511@qq.com
+	 * @公司：IBM GDC (http://www.ibm.com/)
+	 * @创建日期 :2013-6-12
+	 * @修改记录 :
+	 */
 	public class GoodsAdapter extends BaseAdapter{
+		private LayoutInflater mInflater;
 
+		public GoodsAdapter(Context context){
+			mInflater = LayoutInflater.from(context);
+		}
+		
 		@Override
 		public int getCount() {
 			if(curGoodsList != null)
@@ -213,9 +374,15 @@ public class SelectGoodsActivity extends NerveActivity implements OnClickListene
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			TextView v = new TextView(SelectGoodsActivity.this);
-			v.setText(curGoodsList.get(position).toString());
-			return v;
+			Goods g = curGoodsList.get(position);
+			if(convertView == null){
+				//System.out.println("0----------000000--------------00");
+				convertView = mInflater.inflate(R.layout.goods_select_item, null);
+			}
+			GoodsRow row = (GoodsRow)convertView;
+			row.setGoods(g, isSearch);
+			
+			return row;
 		}
 		
 	}
@@ -242,7 +409,7 @@ public class SelectGoodsActivity extends NerveActivity implements OnClickListene
 		/**
 		 * 获取商品信息的地址
 		 */
-		public static final String GOODS_URL = "http://10.0.0.14/jxc/chonourDV/getPtype.asp?TypeID=%1$s&sessionId=%2$s&keyWord=%3$s";
+		public static final String GOODS_URL = "http://jxc.chonour.com/chonourDV/getPtype.asp?TypeID=%1$s&sessionId=%2$s&keyWord=%3$s";
 		
 		public static final int FAILED = 0;
 		public static final int OK = 1;
@@ -258,30 +425,11 @@ public class SelectGoodsActivity extends NerveActivity implements OnClickListene
 		
 		private NetWorker net = new NetWorker("utf-8");
 		
-		private List<Goods> resultList = new ArrayList<Goods>();
-		
-		public List<Goods> getList(){
-			return resultList;
-		}
-		
 		@Override
 		protected Integer doInBackground(Integer... params) {
 			if(params.length < 1)
 				return FAILED;
 			int action = params[0];
-			
-			/*
-			 * 查询子类的话，先判断在 goodsMap 中是否有以 curTypeId 为key的value
-			 * 没有，就从网络中获取
-			 */
-			if(action == CATEGORY){
-				if(goodsMap.containsKey(curTypeId)){
-					resultList = goodsMap.get(curTypeId);
-					return OK;
-				}
-			}
-			
-			handler.sendEmptyMessage(WORKING);
 			
 			//从网络中获取商品
 			String url = buildUrl(action);
@@ -295,7 +443,7 @@ public class SelectGoodsActivity extends NerveActivity implements OnClickListene
 			System.out.println("result : " + result);
 			JSON<Goods> goodsJSON = new JSON<Goods>(Goods.class);
 			try{
-				resultList = goodsJSON.parseToList(result, "LIST");
+				curGoodsList = goodsJSON.parseToList(result, "LIST");
 			}catch(Exception e){
 				e.printStackTrace(System.out);
 				
@@ -335,4 +483,5 @@ public class SelectGoodsActivity extends NerveActivity implements OnClickListene
 			return String.format(GOODS_URL, typeId, sessionId, key);
 		}
 	}
+
 }

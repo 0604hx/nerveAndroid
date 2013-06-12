@@ -16,6 +16,7 @@ import java.io.Serializable;
  */
 @SuppressWarnings("serial")
 public class Goods implements Serializable{
+	public boolean select;
 	public String typeId;
 	public String ParId;
 	public int sonnum;
@@ -24,6 +25,6 @@ public class Goods implements Serializable{
 	
 	@Override
 	public String toString() {
-		return String.format("[typeid=%1$s, code=%2$s, name=%3$s]", typeId, UserCode, FullName);
+		return String.format("[typeid=%1$s, code=%2$s, name=%3$s, sonnum=%4$d]", typeId, UserCode, FullName, sonnum);
 	}
 }

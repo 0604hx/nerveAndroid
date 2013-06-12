@@ -6,7 +6,7 @@
     <string name="radio">选择型对话框</string>
     
    	<string-array name="search_type">
-   	    <item>命名</item>
-   	    <item>编号</item>
+   	    <item>以命名</item>
+   	    <item>以编号</item>
    	</string-array>
 </resources>

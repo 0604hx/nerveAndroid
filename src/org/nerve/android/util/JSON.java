@@ -1,8 +1,6 @@
 package org.nerve.android.util;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +8,8 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.annotation.SuppressLint;
 
 /**
  * @项目名称 :nerveAndroid
@@ -45,6 +45,7 @@ public class JSON<T> {
 		this.dateFormat = dateFormat;
 	}
 
+	@SuppressLint("SimpleDateFormat")
 	public T parse(JSONObject obj){
 		if(obj == null)
 			return null;
@@ -55,6 +56,9 @@ public class JSON<T> {
 			String name = null;
 			Field[] fields = bean.getClass().getDeclaredFields();
 			for(Field f:fields){
+				if(!obj.has(f.getName()))
+					continue;
+				
 				if(!f.isAccessible())
 					f.setAccessible(true);
 				

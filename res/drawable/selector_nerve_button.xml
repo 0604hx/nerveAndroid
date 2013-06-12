@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 这里使用到自定义的对话框中，圆角 -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+		   <!-- 颜色渐变，angle 为渐变的方向 -->
+		   <gradient android:angle="90" android:endColor="#189A21" android:startColor="#556B2F" />
+		   <stroke android:width="0.8dip" android:color="#7B7573"/>
+		   <padding android:left="10dp" android:right="10dp" android:top="6dp" android:bottom="6dp"/>
+		   <corners android:radius="6dp"/>
+		</shape>
+    </item>
+    
+    <item android:state_focused="true">
+        <shape android:shape="rectangle">
+		   <!-- 颜色渐变，angle 为渐变的方向 -->
+		   <gradient android:angle="90" android:endColor="#73CF7B" android:startColor="#556B2F" />
+		   <stroke android:width="0.8dip" android:color="#7B7573"/>
+		   <padding android:left="15dp" android:right="15dp" android:top="8dp" android:bottom="8dp"/>
+		   <corners android:radius="6dp"/>
+		</shape>
+    </item>
+    
+    <item>
+        <shape android:shape="rectangle">
+		   <!-- 颜色渐变，angle 为渐变的方向 -->
+		   <gradient android:angle="90" android:endColor="#73CF7B" android:startColor="#308014" />
+		   <stroke android:width="0.8dip" android:color="#7B7573"/>
+		   <padding android:left="15dp" android:right="15dp" android:top="8dp" android:bottom="8dp"/>
+		   <corners android:radius="6dp"/>
+		</shape>
+    </item>
+</selector>
